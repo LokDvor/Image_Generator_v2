@@ -354,7 +354,7 @@ public class Gui extends JFrame implements ActionListener{
 
 			layout.putConstraint(SpringLayout.EAST, contentPane,
 		            5,
-		            SpringLayout.EAST, back_slider);
+		            SpringLayout.EAST, bend_slider);
 			layout.putConstraint(SpringLayout.SOUTH, contentPane,
 		            5,
 		            SpringLayout.SOUTH, back_slider);	

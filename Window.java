@@ -60,7 +60,7 @@ public class Window extends JFrame implements Runnable
 		}
 		else 
 		{
-			System.out.println("Frame values out of range (0 - 3000)");
+			System.out.println("Frame values out of range (1 - 2999)");
 			System.exit(-1);
 		}
 		
@@ -75,7 +75,7 @@ public class Window extends JFrame implements Runnable
 		}
 		else 
 		{
-			System.out.println("Bend values out of range (0 - Frame size)");
+			System.out.println("Bend values out of range (1 - Frame size)");
 			error = true;
 			 on_close();
 		}
@@ -88,7 +88,7 @@ public class Window extends JFrame implements Runnable
 		}
 		else 
 		{
-			System.out.println("Distance values out of range (Frame_y - 5000)");
+			System.out.println("Distance values out of range ("  + (size_y + 1)+  " - 4999)");
 			error = true;
 			 on_close();
 		}
@@ -101,7 +101,7 @@ public class Window extends JFrame implements Runnable
 		}
 		else 
 		{
-			System.out.println("Speed values out of range (- 50 - 50)");
+			System.out.println("Speed values out of range (- 49 - 49)");
 			error = true;
 			 on_close();
 		}
@@ -114,7 +114,7 @@ public class Window extends JFrame implements Runnable
 		}
 		else 
 		{
-			System.out.println("Num of Frames values out of range (0 - 100)");
+			System.out.println("Num of Frames values out of range (1 - 100)");
 			error = true;
 			 on_close();
 		}
