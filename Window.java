@@ -40,7 +40,6 @@ public class Window extends JFrame implements Runnable
 	private int image_num = 0;
 	private boolean isRunning;
 	
-	
 	public Window(String[] args)
 	{
 		args_parser(args);
@@ -75,7 +74,8 @@ public class Window extends JFrame implements Runnable
 		}
 		else 
 		{
-			System.out.println("Bend values out of range (1 - Frame size)");
+			System.out.println("Bend values out of range (1 - " + size_x + ")");
+			System.out.println("Bend values out of range (1 - " + size_y + ")");
 			error = true;
 			 on_close();
 		}
@@ -127,7 +127,7 @@ public class Window extends JFrame implements Runnable
 		}
 		else 
 		{
-			System.out.println("FPS values out of range (1 - 100)");
+			System.out.println("FPS values out of range (1 - 99)");
 			error = true;
 			 on_close();
 		}
@@ -165,7 +165,7 @@ public class Window extends JFrame implements Runnable
 	public int on_close()
 	{
 		isRunning = false;
-		System.out.println("FINISHED");
+		System.out.println("FINISHED:ERROR");
 		return 1;
 	}
 	
@@ -229,7 +229,7 @@ public class Window extends JFrame implements Runnable
 			{
 			try 
 			{  
-				File outputFile = new File("./Stream/FRAME_" + image_num + ".png");
+				File outputFile = new File("./Stream/FRAME_" +("00000" + image_num).substring(Integer.toString(image_num).length())+ ".png");
 				outputFile.getParentFile().mkdirs();
 				ImageIO.write(image, "png", outputFile);
 				image_num++;
