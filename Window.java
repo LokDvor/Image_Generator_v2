@@ -10,6 +10,7 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -39,7 +40,10 @@ public class Window extends JFrame implements Runnable
 	private int tick;
 	private int image_num = 0;
 	private boolean isRunning;
+	private boolean IsTextures = false;
 	
+	private BufferedImage image_array[] = new BufferedImage[16];
+	private BufferedImage image_line;
 	public Window(String[] args)
 	{
 		args_parser(args);
@@ -135,6 +139,29 @@ public class Window extends JFrame implements Runnable
 		bend_color = new Color(Integer.parseInt(args[8]));
 		back_color = new Color(Integer.parseInt(args[9]));
 		
+		IsTextures = Boolean.parseBoolean(args[10]);
+		
+		
+		
+		if (IsTextures)
+		{
+			for (int i = 0; i < 16; i++)
+			{
+				try {
+			    image_array[i] = ImageIO.read(new File("./Textures/"+ i +".png"));
+			   
+				} catch (IOException e) {
+				System.err.println("./Textures/"+ i +".jpg");
+				}
+			}
+			try{
+			image_line = ImageIO.read(new File ("./Textures/Lines/I_R.png"));
+			
+			} catch (IOException e) {
+		
+			}
+		}
+		
 	}
 	
 	
@@ -174,8 +201,41 @@ public class Window extends JFrame implements Runnable
 		image = new BufferedImage(size_x, size_y,  BufferedImage.TYPE_INT_ARGB);
 		Graphics g2 = image.createGraphics();
 		
-		g2.setColor(back_color);				
-		g2.fillRect(0, 0, size_x, size_y);
+		
+		if (IsTextures)
+		{
+			int x_lim = size_x/100 + 2;
+			int y_lim = size_y/100 + 2;
+			int y_move = y_cord % 100 - 100;
+		for (int i = 0; i < x_lim; i ++)
+			{
+			for (int j = 0; j < y_lim; j ++)
+			{
+				
+				Random rand = new Random();
+				if (rand.nextInt(100) < 15)
+				{
+					g2.drawImage(image_array[rand.nextInt(16)], 100*i, 100*j + y_move, null);
+				}
+				else 
+				{
+					g2.drawImage(image_array[1], 100*i, 100*j + y_move, null);
+
+				}
+			}
+			}
+		
+		//	Image buff = image_line.getScaledInstance(bend_width, bend_height, Image.SCALE_DEFAULT);
+		//	g2.drawImage(buff, (int)(size_x/2 - bend_width/2) , y_cord,  null);
+		}
+		else
+		{
+			g2.setColor(back_color);				
+			g2.fillRect(0, 0, size_x, size_y);
+			
+			g2.setColor(bend_color);	
+			g2.fillRect( (int)(size_x/2 - bend_width/2) , y_cord, bend_width, bend_height);
+		}
 		
 		g2.setColor(bend_color);	
 		g2.fillRect( (int)(size_x/2 - bend_width/2) , y_cord, bend_width, bend_height);

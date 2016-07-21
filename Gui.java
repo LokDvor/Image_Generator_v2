@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,13 +7,16 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class Gui extends JFrame implements ActionListener{
+public class Gui extends JFrame implements ActionListener ,ChangeListener {
 	
 	static final int COLOR_MIN = 0;
 	static final int COLOR_MAX = 8388608;
@@ -46,8 +50,11 @@ public class Gui extends JFrame implements ActionListener{
 	private JLabel bend_color_label = new JLabel("Bend Color:");
 	private JLabel back_color_label = new JLabel("Back Color:");
 	
+	
+	
 	private SpringLayout layout = new SpringLayout();
 	
+	private JCheckBox textBox = new JCheckBox("Textures");
 	private JButton gen = new JButton("Generate");
 	
 	public Gui(int size_x, int size_y)
@@ -60,6 +67,7 @@ public class Gui extends JFrame implements ActionListener{
 		
 		   Container contentPane = this.getContentPane();
         this.setLayout(layout);
+        this.setResizable(false);
        gen.addActionListener(this);
         
       //==============================================================
@@ -304,6 +312,7 @@ public class Gui extends JFrame implements ActionListener{
 			this.add(bend_slider);
 			this.add(bend_color_label);
 			
+			bend_slider.addChangeListener(this);
 		    layout.putConstraint(SpringLayout.WEST, bend_color_label,
 		            5,
 		            SpringLayout.WEST, contentPane);
@@ -333,7 +342,7 @@ public class Gui extends JFrame implements ActionListener{
 			
 			this.add(back_slider);
 			this.add(back_color_label);
-			
+			back_slider.addChangeListener(this);
 		    layout.putConstraint(SpringLayout.WEST, back_color_label,
 		            5,
 		            SpringLayout.WEST, contentPane);
@@ -360,6 +369,22 @@ public class Gui extends JFrame implements ActionListener{
 		            SpringLayout.SOUTH, back_slider);	
 	//===============================================================
 			
+	this.add(textBox);
+	textBox.setSelected(false);
+	
+	layout.putConstraint(SpringLayout.WEST, textBox,
+            5,
+            SpringLayout.WEST, contentPane);
+    
+    layout.putConstraint(SpringLayout.NORTH, textBox,
+            25,
+            SpringLayout.NORTH, back_color_label);
+
+	layout.putConstraint(SpringLayout.SOUTH, contentPane,
+            5,
+            SpringLayout.SOUTH, textBox);	
+	
+	//===============================================================
 			
 			this.add(gen);	
 			
@@ -369,7 +394,7 @@ public class Gui extends JFrame implements ActionListener{
 		    
 		    layout.putConstraint(SpringLayout.NORTH, gen,
 		            25,
-		            SpringLayout.NORTH, back_color_label);
+		            SpringLayout.NORTH, textBox);
 
 			layout.putConstraint(SpringLayout.SOUTH, contentPane,
 		            5,
@@ -388,10 +413,13 @@ public class Gui extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
+		
+		
+
 		if (arg0.getSource().equals(gen))
 		{
 		
-			String[] args = new String[10];
+			String[] args = new String[11];
 			
 			
 			args[0] = size_x_field.getText();
@@ -404,9 +432,17 @@ public class Gui extends JFrame implements ActionListener{
 			args[7] = fps_field.getText();
 			args[8] = Integer.toString(bend_slider.getValue());
 			args[9] = Integer.toString(back_slider.getValue());
-			
+			args[10] = Boolean.toString(textBox.isSelected() );
 			Window window = new Window(args);
 		}
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent arg0) {
+		// TODO Auto-generated method stub
+		bend_color_label.setForeground(new Color(bend_slider.getValue()));
+		back_color_label.setForeground(new Color(back_slider.getValue()));
+
 	}
 	
 }
